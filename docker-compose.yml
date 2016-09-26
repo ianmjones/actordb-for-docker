@@ -1,0 +1,46 @@
+version: "2"
+services:
+  actordb-server-1:
+    image: bytepixie/actordb
+    ports:
+      - "33316:33306"
+      - "33317:33307"
+    volumes:
+      - "./node1/data:/var/lib/actordb"
+      - "./node1/etc:/etc/actordb"
+      - "./node1/logs:/var/log/actordb"
+  actordb-server-2:
+    image: bytepixie/actordb
+    ports:
+      - "33326:33306"
+      - "33327:33307"
+    volumes:
+      - "./node2/data:/var/lib/actordb"
+      - "./node2/etc:/etc/actordb"
+      - "./node2/logs:/var/log/actordb"
+    links:
+      - actordb-server-1
+  actordb-server-3:
+    image: bytepixie/actordb
+    ports:
+      - "33336:33306"
+      - "33337:33307"
+    volumes:
+      - "./node3/data:/var/lib/actordb"
+      - "./node3/etc:/etc/actordb"
+      - "./node3/logs:/var/log/actordb"
+    links:
+      - actordb-server-1
+
+  #
+  # A single node per machine service, config in .env.
+  #
+#  actordb-server:
+#    image: bytepixie/actordb
+#    ports:
+#      - "${ACTORDB_PORT_THRIFT}:33306"
+#      - "${ACTORDB_PORT_MYSQL}:33307"
+#    volumes:
+#      - "${ACTORDB_DATA}:/var/lib/actordb"
+#      - "${ACTORDB_ETC}:/etc/actordb"
+#      - "${ACTORDB_LOGS}:/var/log/actordb"

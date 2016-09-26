@@ -1,0 +1,7 @@
+/node*/data/.erlang.cookie
+/node*/data/lmdb
+/node*/data/lmdb-lock
+/node*/logs/console.log*
+/node*/logs/crash.log*
+/node*/logs/error.log*
+/node*/logs/sasl-error.log*
