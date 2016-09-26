@@ -161,5 +161,5 @@ You *must* remember to add each node that makes up a cluster into the nodes tabl
 The above is taken from an [updated `init.example.sql`](https://github.com/bytepixie/actordb-for-docker/blob/master/node1/etc/init.example.sql) that is used for a very simple (and not very good) [example Docker Compose setup](https://github.com/bytepixie/actordb-for-docker/blob/master/docker-compose.yml).
 
 ## Contributing & Issues
-If you have problems or questions about this image, please raise an issue on the [GitHub repo](https://github.com/bytepixie/actordb-for-docker/issues).
+If you have problems with or questions about this image, please raise an issue on the [GitHub repo](https://github.com/bytepixie/actordb-for-docker/issues).
 Pull requests are even better!
