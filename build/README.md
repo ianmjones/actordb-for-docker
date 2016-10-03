@@ -1,5 +1,5 @@
 # ActorDB for Docker
-[![Docker Automated build](https://img.shields.io/docker/automated/bytepixie/actordb.svg?maxAge=2592000)](https://github.com/bytepixie/actordb-for-docker/tree/master/build/)
+[![Docker Automated build](https://img.shields.io/docker/automated/bytepixie/actordb.svg?maxAge=2592000)](https://github.com/bytepixie/actordb-for-docker/tree/master/build/) [![](https://images.microbadger.com/badges/image/bytepixie/actordb.svg)](https://microbadger.com/images/bytepixie/actordb "Get your own image badge on microbadger.com")
 
 **PLEASE NOTE:** *This is an unofficial package, [go badger Biokoda](https://github.com/biokoda/actordb/issues) for an official [ActorDB](http://www.actordb.com) image if that is of concern!*
 
