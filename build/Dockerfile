@@ -12,7 +12,7 @@ RUN apt-get update \
 		curl \
 	#
 	# Install ActorDB.
-	&& curl -L https://dzbscw1ubdtyw.cloudfront.net/actordb_0.10.22-1_amd64.deb -o /tmp/actordb.deb \
+	&& curl -L https://dzbscw1ubdtyw.cloudfront.net/actordb_0.10.24-1_amd64.deb -o /tmp/actordb.deb \
 	&& dpkg -i /tmp/actordb.deb \
 	#
 	# Install dumb-init (to handle PID 1 correctly).
