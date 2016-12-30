@@ -1,4 +1,6 @@
 # ActorDB for Docker
+
+[![Join the chat at https://gitter.im/bytepixie/actordb-for-docker](https://badges.gitter.im/bytepixie/actordb-for-docker.svg)](https://gitter.im/bytepixie/actordb-for-docker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Docker Automated build](https://img.shields.io/docker/automated/bytepixie/actordb.svg?maxAge=2592000)](https://github.com/bytepixie/actordb-for-docker/tree/master/build/) [![](https://images.microbadger.com/badges/image/bytepixie/actordb.svg)](https://microbadger.com/images/bytepixie/actordb "Get your own image badge on microbadger.com") [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/bytepixie/actordb-for-docker/blob/master/LICENSE)
 
 A project to get [ActorDB](http://www.actordb.com) running with [Docker](https://www.docker.com).
