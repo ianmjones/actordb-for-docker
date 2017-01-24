@@ -9,6 +9,11 @@ services:
       - "./node1/data:/var/lib/actordb"
       - "./node1/etc:/etc/actordb"
       - "./node1/logs:/var/log/actordb"
+    networks:
+      default:
+        aliases:
+          - actordb-server-1.local
+
   actordb-server-2:
     image: bytepixie/actordb
     ports:
@@ -20,6 +25,11 @@ services:
       - "./node2/logs:/var/log/actordb"
     links:
       - actordb-server-1
+    networks:
+      default:
+        aliases:
+          - actordb-server-2.local
+
   actordb-server-3:
     image: bytepixie/actordb
     ports:
@@ -31,6 +41,10 @@ services:
       - "./node3/logs:/var/log/actordb"
     links:
       - actordb-server-1
+    networks:
+      default:
+        aliases:
+          - actordb-server-3.local
 
   #
   # A single node per machine service, config in .env.
@@ -44,3 +58,6 @@ services:
 #      - "${ACTORDB_DATA}:/var/lib/actordb"
 #      - "${ACTORDB_ETC}:/etc/actordb"
 #      - "${ACTORDB_LOGS}:/var/log/actordb"
+
+networks:
+  default:
