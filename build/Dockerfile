@@ -12,12 +12,12 @@ RUN apt-get update \
 		curl \
 	#
 	# Install ActorDB.
-	&& curl -L https://dzbscw1ubdtyw.cloudfront.net/actordb_0.10.24-1_amd64.deb -o /tmp/actordb.deb \
+	&& curl -L https://dzbscw1ubdtyw.cloudfront.net/actordb_0.10.25-1_amd64.deb -o /tmp/actordb.deb \
 	&& dpkg -i /tmp/actordb.deb \
 	#
 	# Install dumb-init (to handle PID 1 correctly).
 	# https://github.com/Yelp/dumb-init
-	&& curl -L https://github.com/Yelp/dumb-init/releases/download/v1.1.3/dumb-init_1.1.3_amd64.deb -o /tmp/dumb-init.deb \
+	&& curl -L https://github.com/Yelp/dumb-init/releases/download/v1.2.0/dumb-init_1.2.0_amd64.deb -o /tmp/dumb-init.deb \
 	&& dpkg -i /tmp/dumb-init.deb \
 	#
 	# Clean up temp stuff.
