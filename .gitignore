@@ -5,3 +5,4 @@
 /node*/logs/crash.log*
 /node*/logs/error.log*
 /node*/logs/sasl-error.log*
+.env
