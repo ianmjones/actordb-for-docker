@@ -138,6 +138,19 @@ By default the image exposes three volumes:
 * /etc/actordb: Configuration files.
 * /var/log/actordb: Log files.
 
+You probably want to mount at least the data and logs volumes in order to persist your data and inspect the logs. If the config volume isn't mounted then a default config is used, but if mounted you'll need to supply an `app.config` and `vm.args` file.
+
+### Environment Variables
+
+#### `NEW_UID`
+Set the user ID that the `actordb` user should use, great for ensuring that data is created with the same UID as the host user running the container and therefore more manageable on the host.
+
+#### `NEW_GID`
+Set the group ID that the `actordb` user should use, great for ensuring that data is created with the same GID as the host user running the container and therefore more manageable on the host.
+
+#### `ACTORDB_NODE`
+Overrides the `-name` setting from the vm.args file to give the node a new name when the container is first started. If not used then the node name from the /etc/actordb/vm.args file is used (default is actordb@actordb.local).
+
 ### User
 The default user is root, but the actordb process runs as an "actordb" user.
 
@@ -146,8 +159,8 @@ Some things to remember when configuring ActorDB.
 
 Each node you bring up *must* have a unique `-name` in its vm.args file. This means the part *before* the "@".
 
-When using Docker, you can use the `--name` you give the container after the "@" in the `-name` setting of vm.args.
-When using Docker Compose, you can use the service name after the "@" in the `-name` setting of vm.args.
+When using Docker, you can use the `--name` you give the container after the "@" in the `-name` setting of vm.args (also see the `ACTORDB_NODE` environment variable).
+When using Docker Compose, you can use the service name after the "@" in the `-name` setting of vm.args to ensure the nodes can chat.
 
 You *must* remember to add each node that makes up a cluster into the nodes table. In the example `init.example.sql` it only inserts the current node's name, but you'll want to add the others.
 

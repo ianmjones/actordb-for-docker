@@ -27,6 +27,10 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 
 #
+# Bootstrap script.
+COPY ./docker-entrypoint.sh /
+
+#
 # Default Thrift and MySQL client ports.
 EXPOSE 33306 33307
 #
@@ -41,4 +45,4 @@ VOLUME /var/lib/actordb /etc/actordb /var/log/actordb
 #
 # Use dumb-init to make sure actordb is not running as PID 1.
 ENTRYPOINT ["dumb-init"]
-CMD ["actordb", "foreground"]
+CMD ["/docker-entrypoint.sh"]
