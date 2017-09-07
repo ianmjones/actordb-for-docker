@@ -6,3 +6,6 @@
 /node*/logs/error.log*
 /node*/logs/sasl-error.log*
 .env
+/actordb-data
+/actordb-etc
+/actordb-logs

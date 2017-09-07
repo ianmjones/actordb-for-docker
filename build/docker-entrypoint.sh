@@ -9,7 +9,6 @@ ACTORDB_UID=`id -u ${ACTORDB_USER}`
 ACTORDB_GID=`id -g ${ACTORDB_GROUP}`
 DEBUG_COMMANDS=0
 
-
 #
 # Functions
 #
@@ -124,6 +123,22 @@ fi
 run "chown -R ${ACTORDB_USER}:${ACTORDB_GROUP} /var/lib/actordb"
 run "chown -R ${ACTORDB_USER}:${ACTORDB_GROUP} /etc/actordb"
 run "chown -R ${ACTORDB_USER}:${ACTORDB_GROUP} /var/log/actordb"
+
+#
+# Update node name.
+#
+if [ ! -f /etc/actordb/vm.args ]; then
+	log "err" "/etc/actordb/vm.args not found!!!"
+	exit 1
+fi
+
+if ! set | grep '^ACTORDB_NODE=' >/dev/null 2>&1; then
+	log "warn" "\$ACTORDB_NODE not set"
+	log "warn" "Using node name from /etc/actordb/vm.args"
+else
+	sed -i "s/^-name .*$/-name ${ACTORDB_NODE}/" /etc/actordb/vm.args
+	log "info" "Updated node name to ${ACTORDB_NODE} in /etc/actordb/vm.args"
+fi
 
 #
 # Start

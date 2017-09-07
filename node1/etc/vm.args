@@ -1,5 +1,5 @@
 ## Name of the node
--name node1@actordb-server-1.local
+-name actordb@actordb1.local
 
 ## Cookie for distributed erlang
 -setcookie actordb

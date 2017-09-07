@@ -1,7 +1,7 @@
 version: "3"
 services:
-  actordb-server-1:
-    image: bytepixie/actordb
+  actordb1:
+    image: bytepixie/actordb:${ACTORDB_VERSION:-latest}
     environment:
       ##
       ## actordb user's UserID and GroupID
@@ -18,10 +18,10 @@ services:
     networks:
       default:
         aliases:
-          - actordb-server-1.local
+          - actordb1.local
 
-  actordb-server-2:
-    image: bytepixie/actordb
+  actordb2:
+    image: bytepixie/actordb:${ACTORDB_VERSION:-latest}
     environment:
       ##
       ## actordb user's UserID and GroupID
@@ -36,14 +36,14 @@ services:
       - "./node2/etc:/etc/actordb"
       - "./node2/logs:/var/log/actordb"
     links:
-      - actordb-server-1
+      - actordb1
     networks:
       default:
         aliases:
-          - actordb-server-2.local
+          - actordb2.local
 
-  actordb-server-3:
-    image: bytepixie/actordb
+  actordb3:
+    image: bytepixie/actordb:${ACTORDB_VERSION:-latest}
     environment:
       ##
       ## actordb user's UserID and GroupID
@@ -58,30 +58,31 @@ services:
       - "./node3/etc:/etc/actordb"
       - "./node3/logs:/var/log/actordb"
     links:
-      - actordb-server-1
+      - actordb1
     networks:
       default:
         aliases:
-          - actordb-server-3.local
+          - actordb3.local
 
   #
   # A single node per machine service, config in .env.
   #
-#  actordb-server:
-#    image: bytepixie/actordb
-#    environment:
-#      ##
-#      ## actordb user's UserID and GroupID
-#      ##
-#      - NEW_UID
-#      - NEW_GID
-#    ports:
-#      - "${ACTORDB_PORT_THRIFT-33306}:33306"
-#      - "${ACTORDB_PORT_MYSQL-33307}:33307"
-#    volumes:
-#      - "${ACTORDB_DATA-./data}:/var/lib/actordb"
-#      - "${ACTORDB_ETC-./etc}:/etc/actordb"
-#      - "${ACTORDB_LOGS-./logs}:/var/log/actordb"
+  actordb:
+    image: bytepixie/actordb:${ACTORDB_VERSION:-latest}
+    environment:
+      ##
+      ## actordb user's UserID and GroupID
+      ##
+      - NEW_UID
+      - NEW_GID
+      - ACTORDB_NODE=${ACTORDB_NODE:-actordb@actordb.local}
+    ports:
+      - "${ACTORDB_PORT_THRIFT:-33306}:33306"
+      - "${ACTORDB_PORT_MYSQL:-33307}:33307"
+    volumes:
+      - "${ACTORDB_DATA:-./actordb-data}:/var/lib/actordb"
+#      - "${ACTORDB_ETC:-./actordb-etc}:/etc/actordb"
+      - "${ACTORDB_LOGS:-./actordb-logs}:/var/log/actordb"
 
 networks:
   default:
