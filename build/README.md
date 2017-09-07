@@ -4,7 +4,8 @@
 **PLEASE NOTE:** *This is an unofficial package, [go badger Biokoda](https://github.com/biokoda/actordb/issues) for an official [ActorDB](http://www.actordb.com) image if that is of concern!*
 
 ## Supported Tags and Respective Dockerfile Links
-* 0.10.25, latest - [Dockerfile](https://github.com/bytepixie/actordb-for-docker/blob/master/build/Dockerfile)
+* 0.10.25-1, latest - [Dockerfile](https://github.com/bytepixie/actordb-for-docker/blob/master/build/Dockerfile)
+* 0.10.25 - [Dockerfile](https://github.com/bytepixie/actordb-for-docker/blob/0.10.25/build/Dockerfile)
 * 0.10.24 - [Dockerfile](https://github.com/bytepixie/actordb-for-docker/blob/0.10.24/build/Dockerfile)
 * 0.10.22 - [Dockerfile](https://github.com/bytepixie/actordb-for-docker/blob/0.10.22/build/Dockerfile)
 
