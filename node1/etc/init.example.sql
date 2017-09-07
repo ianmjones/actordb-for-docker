@@ -8,8 +8,8 @@ use config
 insert into groups values ('grp1','cluster')
 -- localnode() is whatever is in vm.args (-name ....) for node we are connected to.
 insert into nodes values (localnode(),'grp1')
-insert into nodes values ('actordb@actordb2.local','grp1')
-insert into nodes values ('actordb@actordb3.local','grp1')
+insert into nodes values ('actordb2@actordb2.local','grp1')
+insert into nodes values ('actordb3@actordb3.local','grp1')
 CREATE USER 'root' IDENTIFIED BY 'rootpass'
 commit
 
