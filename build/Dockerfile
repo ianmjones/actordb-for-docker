@@ -27,8 +27,8 @@ RUN apt-get update \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 
 #
-# Bootstrap script.
-COPY ./docker-entrypoint.sh /
+# Bootstrap scripts.
+COPY ./docker-config.sh ./docker-run.sh ./docker-entrypoint.sh /
 
 #
 # Default Thrift and MySQL client ports.
