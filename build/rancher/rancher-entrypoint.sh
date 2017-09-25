@@ -17,13 +17,12 @@ actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/i
 updatedb() {
 cat > /tmp/init.sql <<EOF
 use config
-insert into groups values ('${ACTORDB_GROUP}','cluster')
 insert into nodes values ('${ACTORDB_NODE}','${ACTORDB_GROUP}')
 commit
 EOF
 
 log "info" "Joining cluster, \"insert_on_existing_node\" error expected if already joined."
-actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/init.sql
+actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/init.sql ${LEADER_ADDR}
 ###rm /tmp/init.sql
 }
 
