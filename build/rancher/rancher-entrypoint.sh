@@ -30,10 +30,11 @@ actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/i
 # Get current container's "number" and name.
 NODE_INDEX=`curl -s 'http://rancher-metadata/2015-12-19/self/container/service_index'`
 NODE_NAME=`curl -s 'http://rancher-metadata/2015-12-19/self/container/name'`
+NODE_DOMAIN=`curl -s 'http://rancher-metadata/2015-12-19/self/container/dns_search/0/'`
 
 #
 # Override node name.
-ACTORDB_NODE="node${NODE_INDEX}@${NODE_NAME}.rancher.internal"
+ACTORDB_NODE="node${NODE_INDEX}@${NODE_NAME}.${NODE_DOMAIN}"
 
 #
 # Run server config with overridden ACTORDB_NODE.
@@ -51,7 +52,7 @@ log "info" "Server started."
 #
 # On start up we need to know whether we're the first or not.
 LEADER_NAME=`curl -s 'http://rancher-metadata/2015-12-19/self/service/containers/0/name'`
-LEADER_ADDR="${LEADER_NAME}.rancher.internal"
+LEADER_ADDR="${LEADER_NAME}.${NODE_DOMAIN}"
 log "info" "Leader name is ${LEADER_NAME}."
 
 if [ "${NODE_NAME}" = "${LEADER_NAME}" ]
