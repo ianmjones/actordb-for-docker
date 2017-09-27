@@ -30,7 +30,8 @@ actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/i
 # Get current container's "number" and name.
 NODE_INDEX=`curl -s 'http://rancher-metadata/2015-12-19/self/container/service_index'`
 NODE_NAME=`curl -s 'http://rancher-metadata/2015-12-19/self/container/name'`
-NODE_DOMAIN=`curl -s 'http://rancher-metadata/2015-12-19/self/container/dns_search/0/'`
+NODE_ENV=`curl -s 'http://rancher-metadata/2015-12-19/self/container/environment_name'`
+NODE_DOMAIN="${NODE_ENV}.discover.internal"
 
 #
 # Override node name.
