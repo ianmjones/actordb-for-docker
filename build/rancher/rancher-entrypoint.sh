@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 initdb() {
 cat > /tmp/init.sql <<EOF
@@ -26,14 +26,50 @@ actordb_console -u ${ACTORDB_ADMIN_USER} -pw ${ACTORDB_ADMIN_PASSWORD} -f /tmp/i
 ###rm /tmp/init.sql
 }
 
+init_or_join() {
+	log "info" "Looking for lead container to join..."
+
+	LEADER_CREATE_INDEX=${NODE_CREATE_INDEX}
+	LEADER_NAME=${NODE_NAME}
+
+	SIBLINGS=`curl -s 'http://rancher-metadata/2015-12-19/self/service/containers' | cut -d= -f1`
+	for index in ${SIBLINGS}
+	do
+		SIBLING_CREATE_INDEX=`curl -s "http://rancher-metadata/2015-12-19/self/service/containers/${index}/create_index"`
+		SIBLING_STATE=`curl -s "http://rancher-metadata/2015-12-19/self/service/containers/${index}/state"`
+
+		log "info" "Sibling Create Index = ${SIBLING_CREATE_INDEX}."
+		log "info" "Sibling State = ${SIBLING_STATE}."
+
+		if [ \( "${SIBLING_STATE}" = "running" -o "${SIBLING_STATE}" = "starting" \) -a ${SIBLING_CREATE_INDEX} -lt ${LEADER_CREATE_INDEX} ]
+		then
+			LEADER_CREATE_INDEX=${SIBLING_CREATE_INDEX}
+			LEADER_NAME=`curl -s "http://rancher-metadata/2015-12-19/self/service/containers/${index}/name"`
+
+			log "info" "New Leader Name = ${LEADER_NAME}."
+		fi
+	done
+
+	log "info" "Final Leader Name = ${LEADER_NAME}."
+
+	if [ "${LEADER_NAME}" = "${NODE_NAME}" ]
+	then
+		log "info" "I'm the lead container."
+		initdb
+	else
+		LEADER_ADDR="${LEADER_NAME}.${NODE_DOMAIN}"
+		log "info" "I'm not the lead container, joining ${LEADER_NAME} in ${MAX_WAIT} seconds..."
+		sleep ${MAX_WAIT}
+		updatedb
+	fi
+}
+
 #
 # Get current container's "number" and name.
+NODE_CREATE_INDEX=`curl -s 'http://rancher-metadata/2015-12-19/self/container/create_index'`
 NODE_INDEX=`curl -s 'http://rancher-metadata/2015-12-19/self/container/service_index'`
 NODE_NAME=`curl -s 'http://rancher-metadata/2015-12-19/self/container/name'`
-NODE_SERVICE=`curl -s 'http://rancher-metadata/2015-12-19/self/container/service_name'`
-NODE_STACK=`curl -s 'http://rancher-metadata/2015-12-19/self/container/stack_name'`
-NODE_ENV=`curl -s 'http://rancher-metadata/2015-12-19/self/container/environment_name'`
-NODE_DOMAIN="${NODE_STACK}.${NODE_ENV}"
+NODE_DOMAIN="rancher.internal"
 
 #
 # Override node name.
@@ -48,25 +84,14 @@ ACTORDB_NODE="node${NODE_INDEX}@${NODE_NAME}.${NODE_DOMAIN}"
 /docker-run.sh &
 
 #
-# Give it a few seconds to get itself together.
-sleep 10
-log "info" "Server started."
+# Wait between 1 to 10 seconds in the hope that at least one container "wins" and becomes the leader when they all start at the same time.
+MAX_WAIT=10
+WAIT_TIME=$(( ( RANDOM % ${MAX_WAIT} )  + 1 ))
+log "info" "Waiting for ${WAIT_TIME} seconds before attempting to start..."
+sleep ${WAIT_TIME}
+log "info" "...starting up."
 
-#
-# On start up we need to know whether we're the first or not.
-LEADER_NAME=`curl -s 'http://rancher-metadata/2015-12-19/self/service/containers/0/name'`
-LEADER_ADDR="${LEADER_NAME}.${NODE_DOMAIN}"
-log "info" "Leader name is ${LEADER_NAME}."
-
-if [ "${NODE_NAME}" = "${LEADER_NAME}" ]
-then
-	log "info" "I'm the lead container."
-	initdb
-else
-	log "info" "I'm not the lead container, giving leader 10 seconds before joining cluster..."
-	sleep 10
-	updatedb
-fi
+init_or_join
 
 unset ACTORDB_ADMIN_USER ACTORDB_ADMIN_PASSWORD ACTORDB_GROUP ACTORDB_SCALE ACTORDB_THRIFT_PORT ACTORDB_MYSQL_PORT VOLUME_DRIVER HOST_LABEL
 

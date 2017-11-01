@@ -3,15 +3,11 @@ FROM bytepixie/actordb
 MAINTAINER Byte Pixie <hello@bytepixie.com>
 
 RUN apt-get update \
-	#
-	# Install dependencies for curl.
 	&& apt-get install -y --no-install-recommends \
 		ca-certificates \
 		libssl1.0.0 \
 		logrotate \
 		curl \
-	#
-	# Clean up temp stuff.
 	&& apt-get clean \
 	&& rm -rf /var/lib/apt/lists/* /tmp/*
 
